@@ -4,7 +4,7 @@ set -e
 
 read -p "Enter SOCKS5 port [1080]: " INPUT_PORT
 read -p "Enter username [fiverr]: " INPUT_USER
-read -s -p "Enter password (leave empty to auto-generate): " INPUT_PASS
+read -p "Enter password (leave empty to auto-generate): " INPUT_PASS
 echo ""
 
 PORT=${INPUT_PORT:-1080}
