@@ -1,12 +1,11 @@
 #!/bin/sh
+set -e
 
-# ---------- interactive input ----------
 read -p "Enter SOCKS5 port [1080]: " INPUT_PORT
 read -p "Enter username [fiverr]: " INPUT_USER
 read -s -p "Enter password (leave empty to auto-generate): " INPUT_PASS
 echo ""
 
-# ---------- defaults ----------
 PORT=${INPUT_PORT:-1080}
 USER=${INPUT_USER:-fiverr}
 
@@ -22,10 +21,8 @@ export S5_PORT="$PORT"
 export S5_USER="$USER"
 export S5_PASS="$PASS"
 
-# ---------- generate config ----------
 envsubst < /etc/3proxy/3proxy.tpl.cfg > /etc/3proxy/3proxy.cfg
 
-# ---------- output node info ----------
 echo ""
 echo "================ SOCKS5 NODE INFO ================"
 echo "Protocol : SOCKS5"
