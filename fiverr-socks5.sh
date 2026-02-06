@@ -10,17 +10,14 @@ echo ""
 PORT=${INPUT_PORT:-1080}
 USER=${INPUT_USER:-fiverr}
 
-# 2. 密码生成 (不依赖 openssl)
+# 2. 密码生成 (使用自带的 date, 不依赖 md5sum)
 if [ -z "$INPUT_PASS" ]; then
-  PASS=$(date +%s | md5sum | cut -c1-12)
+  PASS="pass$(date +%s)"
 else
   PASS="$INPUT_PASS"
 fi
 
-# 3. 获取 IP (不依赖外部 curl)
-IP="Your_Server_IP"
-
-# 4. 直接生成配置文件 (不依赖 envsubst)
+# 3. 直接生成配置文件 (去除变量注入依赖)
 cat > /etc/3proxy/3proxy.cfg <<EOF
 daemon
 maxconn 100
@@ -32,16 +29,15 @@ allow ${USER}
 socks -p${PORT}
 EOF
 
-# 5. 打印信息
+# 4. 打印信息
 echo ""
 echo "================ SOCKS5 NODE INFO ================"
 echo "Protocol : SOCKS5"
-echo "IP       : ${IP}"
 echo "Port     : ${PORT}"
 echo "Username : ${USER}"
 echo "Password : ${PASS}"
 echo "================================================="
 echo ""
 
-# 6. 运行程序
+# 5. 运行程序
 exec 3proxy /etc/3proxy/3proxy.cfg
