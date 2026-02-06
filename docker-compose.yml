@@ -4,10 +4,8 @@ services:
     container_name: Fiverr-Dedicated-IP
     restart: always
     ports:
-      - "1080:1080"
+      - "${S5_PORT}:${S5_PORT}"
     volumes:
       - ./fiverr-socks5.sh:/fiverr-socks5.sh
-      - ./3proxy.tpl.cfg:/etc/3proxy/3proxy.tpl.cfg
+    # 注意：这里去掉了 tty 和 stdin_open，因为我们不在容器里交互了
     entrypoint: ["/bin/sh", "/fiverr-socks5.sh"]
-    tty: true            # 开启伪终端，允许交互
-    stdin_open: true     # 开启标准输入，允许 read 命令接收输入
