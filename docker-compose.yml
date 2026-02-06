@@ -1,1 +1,11 @@
-
+services:
+  socks5:
+    image: 3proxy/3proxy:latest
+    container_name: Fiverr-Dedicated-IP
+    restart: always
+    ports:
+      - "1080:1080"
+    volumes:
+      - ./entrypoint.sh:/entrypoint.sh:ro
+      - ./3proxy.tpl.cfg:/etc/3proxy/3proxy.tpl.cfg:ro
+    entrypoint: ["/entrypoint.sh"]
