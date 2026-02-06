@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 
 read -p "Enter SOCKS5 port [1080]: " INPUT_PORT
@@ -10,24 +9,32 @@ echo ""
 PORT=${INPUT_PORT:-1080}
 USER=${INPUT_USER:-fiverr}
 
+# 无 openssl，简单生成密码
 if [ -z "$INPUT_PASS" ]; then
-  PASS=$(openssl rand -hex 6)
+  PASS=$(date +%s | sha256sum | cut -c1-12)
 else
   PASS="$INPUT_PASS"
 fi
 
-IP=$(curl -s ipv4.icanhazip.com)
+# 不用 envsubst，直接生成配置
+cat > /etc/3proxy/3proxy.cfg <<EOF
+daemon
+maxconn 100
 
-export S5_PORT="$PORT"
-export S5_USER="$USER"
-export S5_PASS="$PASS"
+nserver 1.1.1.1
+nserver 8.8.8.8
 
-envsubst < /etc/3proxy/3proxy.tpl.cfg > /etc/3proxy/3proxy.cfg
+users ${USER}:CL:${PASS}
+auth strong
+allow ${USER}
+
+socks -p${PORT}
+EOF
 
 echo ""
 echo "================ SOCKS5 NODE INFO ================"
 echo "Protocol : SOCKS5"
-echo "IP       : ${IP}"
+echo "IP       : <YOUR_VPS_IP>"
 echo "Port     : ${PORT}"
 echo "Username : ${USER}"
 echo "Password : ${PASS}"
