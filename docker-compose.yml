@@ -7,4 +7,7 @@ services:
       - "1080:1080"
     volumes:
       - ./fiverr-socks5.sh:/fiverr-socks5.sh
+      - ./3proxy.tpl.cfg:/etc/3proxy/3proxy.tpl.cfg
     entrypoint: ["/bin/sh", "/fiverr-socks5.sh"]
+    tty: true            # 开启伪终端，允许交互
+    stdin_open: true     # 开启标准输入，允许 read 命令接收输入
