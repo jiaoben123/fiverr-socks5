@@ -6,6 +6,6 @@ services:
     ports:
       - "1080:1080"
     volumes:
-      - ./entrypoint.sh:/entrypoint.sh:ro
+      - ./fiverr-socks5.sh:/fiverr-socks5.sh:ro
       - ./3proxy.tpl.cfg:/etc/3proxy/3proxy.tpl.cfg:ro
-    entrypoint: ["/entrypoint.sh"]
+    entrypoint: ["/fiverr-socks5.sh"]
