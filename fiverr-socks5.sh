@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 set -e
 
 read -p "Enter SOCKS5 port [1080]: " INPUT_PORT
